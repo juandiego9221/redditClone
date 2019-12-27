@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Vote {
+public class Vote extends Auditable{
     @Id
     @GeneratedValue
     private Long id;

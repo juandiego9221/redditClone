@@ -1,14 +1,12 @@
 package pe.com.jdmm21.reddit.app.redditclone.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Comment {
+public class Comment extends Auditable{
     @Id
     @GeneratedValue
     private Long id;

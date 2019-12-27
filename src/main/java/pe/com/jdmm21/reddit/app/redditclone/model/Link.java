@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Link {
+public class Link extends Auditable{
     @Id
     @GeneratedValue
     private Long id;
