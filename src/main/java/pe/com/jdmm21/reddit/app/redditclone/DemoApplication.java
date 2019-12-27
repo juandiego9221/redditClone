@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import pe.com.jdmm21.reddit.app.redditclone.properties.SpringitProperties;
 
@@ -21,6 +22,7 @@ public class DemoApplication {
 	}
 
 	@Bean
+	@Profile("dev")
 	CommandLineRunner runner(){
 		return args -> {
 			System.out.println("welcome message : " + springitProperties.getWelcomeMsg());
