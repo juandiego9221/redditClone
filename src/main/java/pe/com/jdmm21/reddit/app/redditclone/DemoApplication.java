@@ -14,6 +14,7 @@ import pe.com.jdmm21.reddit.app.redditclone.properties.SpringitProperties;
 @EnableConfigurationProperties(SpringitProperties.class)
 public class DemoApplication {
 
+	
 	@Autowired
 	private SpringitProperties springitProperties;
 
