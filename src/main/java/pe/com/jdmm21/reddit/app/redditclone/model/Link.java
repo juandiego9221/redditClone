@@ -1,23 +1,53 @@
 package pe.com.jdmm21.reddit.app.redditclone.model;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.URL;
+import org.ocpsoft.prettytime.PrettyTime;
+
+import pe.com.jdmm21.reddit.app.redditclone.service.BeanUtil;
 
 @Entity
-public class Link extends Auditable{
+public class Link extends Auditable {
     @Id
     @GeneratedValue
     private Long id;
+    @NotEmpty(message = "please enter a title")
     private String title;
+    @NotEmpty(message = "please enter a url")
+    @URL
     private String url;
     @OneToMany(mappedBy = "link")
     private List<Comment> comments = new ArrayList<>();
 
+    public String getDomainName() throws URISyntaxException {
+        URI uri = new URI(this.url);
+        String domain = uri.getHost();
+        return domain.startsWith("www.") ? domain.substring(4) : domain;
+    }
+
+    public String getPrettyTime() {
+        PrettyTime pt = BeanUtil.getBean(PrettyTime.class);
+        return pt.format(convertToDateViaInstant(getCreationDate()));
+    }
+
+    private Date convertToDateViaInstant(LocalDateTime dateToConvert) {
+        return java.util.Date.from(dateToConvert.atZone(ZoneId.systemDefault()).toInstant());
+    }
 
     public Link() {
     }
@@ -106,5 +136,26 @@ public class Link extends Auditable{
         return true;
     }
 
-    
+    public Link(String title, String url) {
+        this.title = title;
+        this.url = url;
+        LocalDateTime rightNow = LocalDateTime.now();
+        setLastModifiedDate(rightNow);
+        setCreationDate(rightNow);
+    }
+
+    /**
+     * @return List<Comment> return the comments
+     */
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
 }
