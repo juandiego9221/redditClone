@@ -140,6 +140,7 @@ public class Link extends Auditable {
         this.title = title;
         this.url = url;
         LocalDateTime rightNow = LocalDateTime.now();
+        setCreatedBy("admin@gmail.com");
         setLastModifiedDate(rightNow);
         setCreationDate(rightNow);
     }
