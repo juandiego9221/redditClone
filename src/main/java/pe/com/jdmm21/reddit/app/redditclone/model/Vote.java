@@ -3,13 +3,16 @@ package pe.com.jdmm21.reddit.app.redditclone.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Vote extends Auditable{
+public class Vote extends Auditable {
     @Id
     @GeneratedValue
     private Long id;
-    private int vote;
+    private short direction;
+    @ManyToOne
+    private Link link;
 
     public Vote() {
     }
@@ -29,50 +32,36 @@ public class Vote extends Auditable{
     }
 
     /**
-     * @return int return the vote
+     * @return Link return the link
      */
-    public int getVote() {
-        return vote;
+    public Link getLink() {
+        return link;
     }
 
     /**
-     * @param vote the vote to set
+     * @param link the link to set
      */
-    public void setVote(int vote) {
-        this.vote = vote;
+    public void setLink(Link link) {
+        this.link = link;
+    }
+
+    /**
+     * @return short return the direction
+     */
+    public short getDirection() {
+        return direction;
+    }
+
+    /**
+     * @param direction the direction to set
+     */
+    public void setDirection(short direction) {
+        this.direction = direction;
     }
 
     @Override
     public String toString() {
-        return "Vote [id=" + id + ", vote=" + vote + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + vote;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Vote other = (Vote) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (vote != other.vote)
-            return false;
-        return true;
+        return "Vote [direction=" + direction + ", id=" + id + ", link=" + link + "]";
     }
 
 }

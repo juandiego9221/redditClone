@@ -34,6 +34,11 @@ public class Link extends Auditable {
     @OneToMany(mappedBy = "link")
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "link")
+    private List<Vote> votes = new ArrayList<>();
+
+    private int voteCount;
+
     public String getDomainName() throws URISyntaxException {
         URI uri = new URI(this.url);
         String domain = uri.getHost();
@@ -94,10 +99,6 @@ public class Link extends Auditable {
         this.url = url;
     }
 
-    @Override
-    public String toString() {
-        return "Link [id=" + id + ", title=" + title + ", url=" + url + "]";
-    }
 
     @Override
     public int hashCode() {
@@ -145,6 +146,10 @@ public class Link extends Auditable {
         setCreationDate(rightNow);
     }
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
     /**
      * @return List<Comment> return the comments
      */
@@ -157,6 +162,34 @@ public class Link extends Auditable {
      */
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    /**
+     * @return List<Vote> return the votes
+     */
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    /**
+     * @param votes the votes to set
+     */
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
+    /**
+     * @return int return the voteCount
+     */
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    /**
+     * @param voteCount the voteCount to set
+     */
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
 }

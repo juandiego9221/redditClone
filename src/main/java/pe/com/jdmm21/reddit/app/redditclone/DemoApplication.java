@@ -12,7 +12,7 @@ import pe.com.jdmm21.reddit.app.redditclone.properties.SpringitProperties;
 @SpringBootApplication
 @EnableConfigurationProperties(SpringitProperties.class)
 public class DemoApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
