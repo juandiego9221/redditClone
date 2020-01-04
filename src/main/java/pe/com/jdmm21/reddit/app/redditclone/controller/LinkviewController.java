@@ -18,26 +18,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.com.jdmm21.reddit.app.redditclone.model.Comment;
 import pe.com.jdmm21.reddit.app.redditclone.model.Link;
-import pe.com.jdmm21.reddit.app.redditclone.repository.CommentRepository;
-import pe.com.jdmm21.reddit.app.redditclone.repository.LinkRepository;
+import pe.com.jdmm21.reddit.app.redditclone.service.CommentService;
+import pe.com.jdmm21.reddit.app.redditclone.service.LinkService;
 
 @Controller
 public class LinkviewController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(LinkviewController.class);
 
-    private LinkRepository linkRepository;
-    private CommentRepository commentRepository;
+    private CommentService commentService;
+    private LinkService linkService;
 
 
-    public LinkviewController(LinkRepository linkRepository, CommentRepository commentRepository) {
-        this.linkRepository = linkRepository;
-        this.commentRepository = commentRepository;
+    public LinkviewController(LinkService linkService, CommentService commentService) {
+        this.linkService = linkService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/")
     public String list(Model model) {
-        model.addAttribute("links", linkRepository.findAll());
+        model.addAttribute("links", linkService.findAll());
         return "link/list";
     }
 
@@ -47,7 +47,7 @@ public class LinkviewController {
         // if (foundLink.isPresent()) {
 
         // }
-        Optional<Link> linkFound = linkRepository.findById(id);
+        Optional<Link> linkFound = linkService.findById(id);
         if (linkFound.isPresent()) {
             Link currentLink = linkFound.get();
             Comment comment = new Comment();
@@ -79,7 +79,7 @@ public class LinkviewController {
             LocalDateTime localDateTime = LocalDateTime.now();
             link.setCreationDate(localDateTime);
             link.setLastModifiedDate(localDateTime);
-            linkRepository.save(link);
+            linkService.save(link);
             LOGGER.info("new link were sucessusfully saved with id: " + link.getId());
             model.addAttribute("id", link.getId()).addAttribute("success", true);
             return "redirect:/link/" + link.getId();
@@ -92,7 +92,7 @@ public class LinkviewController {
         if (bindingResult.hasErrors()) {
             LOGGER.info("There was a problem adding new comment");
         }else{
-            commentRepository.save(comment);
+            commentService.save(comment);
             LOGGER.info("comment was saved");
         }
         return "redirect:/link/"+comment.getLink().getId();

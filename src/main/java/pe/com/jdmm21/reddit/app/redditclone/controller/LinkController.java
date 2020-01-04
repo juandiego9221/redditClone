@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.com.jdmm21.reddit.app.redditclone.model.Link;
-import pe.com.jdmm21.reddit.app.redditclone.repository.LinkRepository;
+import pe.com.jdmm21.reddit.app.redditclone.service.LinkService;
 
 @RestController
 @RequestMapping("/links")
@@ -24,37 +24,37 @@ public class LinkController {
 
     public static final Logger logger = LoggerFactory.getLogger(LinkController.class);
 
-    private LinkRepository linkRepository;
+    private LinkService linkService;
 
-    public LinkController(LinkRepository linkRepository ) {
-        this.linkRepository = linkRepository;
+    public LinkController(LinkService linkService) {
+        this.linkService = linkService;
     }
 
     // list
     @GetMapping("/")
     public List<Link> list() {
-        return linkRepository.findAll();
+        return linkService.findAll();
     }
 
     // CRUD
     @PostMapping("/create")
     public Link create(@ModelAttribute Link link) {
-        return linkRepository.save(link);
+        return linkService.save(link);
     }
 
     @GetMapping("/{id}")
     public Optional<Link> read(@PathVariable Long id, Model model) {
-        return linkRepository.findById(id);
+        return linkService.findById(id);
     }
 
     @PutMapping("/{id}")
     public Link update(@PathVariable Long id, @ModelAttribute Link link) {
-        return linkRepository.save(link);
+        return linkService.save(link);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        linkRepository.deleteById(id);
+        linkService.deleteById(id);
 
     }
 

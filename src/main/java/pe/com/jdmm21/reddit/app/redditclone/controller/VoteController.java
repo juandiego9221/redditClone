@@ -8,35 +8,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pe.com.jdmm21.reddit.app.redditclone.model.Link;
 import pe.com.jdmm21.reddit.app.redditclone.model.Vote;
-import pe.com.jdmm21.reddit.app.redditclone.repository.LinkRepository;
-import pe.com.jdmm21.reddit.app.redditclone.repository.VoteRepository;
+import pe.com.jdmm21.reddit.app.redditclone.service.LinkService;
+import pe.com.jdmm21.reddit.app.redditclone.service.VoteService;
 
 @RestController
 public class VoteController {
+    private VoteService voteService;
+    private LinkService linkService;
 
-    private VoteRepository voteRepository;
-    private LinkRepository linkRepository;
-
-    public VoteController(VoteRepository voteRepository, LinkRepository linkRepository) {
-        this.voteRepository = voteRepository;
-        this.linkRepository = linkRepository;
+    public VoteController(VoteService voteService, LinkService linkService) {
+        this.voteService = voteService;
+        this.linkService = linkService;
     }
 
     @GetMapping("/vote/link/{linkId}/direction/{direction}/votecount/{voteCount}")
     public int vote(@PathVariable Long linkId, @PathVariable short direction, @PathVariable int voteCount
 
     ) {
-        Optional<Link> foundLink = linkRepository.findById(linkId);
+        Optional<Link> foundLink = linkService.findById(linkId);
         if(foundLink.isPresent()){
             Link link = new Link();
             Vote vote = new Vote();
             vote.setDirection(direction);
             vote.setLink(link);
-            voteRepository.save(vote);
+            voteService.save(vote);
 
             int updateVoteCount = voteCount + direction;
             link.setVoteCount(updateVoteCount);
-            linkRepository.save(link);
+            linkService.save(link);
             return updateVoteCount;
         }
         return voteCount;
