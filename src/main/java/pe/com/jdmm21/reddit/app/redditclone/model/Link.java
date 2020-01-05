@@ -2,9 +2,7 @@ package pe.com.jdmm21.reddit.app.redditclone.model;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +11,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
@@ -36,6 +35,9 @@ public class Link extends Auditable {
 
     @OneToMany(mappedBy = "link")
     private List<Vote> votes = new ArrayList<>();
+
+    @ManyToOne
+    private User user;
 
     private int voteCount;
 
@@ -98,7 +100,6 @@ public class Link extends Auditable {
     public void setUrl(String url) {
         this.url = url;
     }
-
 
     @Override
     public int hashCode() {
@@ -190,6 +191,20 @@ public class Link extends Auditable {
      */
     public void setVoteCount(int voteCount) {
         this.voteCount = voteCount;
+    }
+
+    /**
+     * @return User return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }
